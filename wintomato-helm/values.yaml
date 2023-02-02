@@ -1,0 +1,23 @@
+---
+applicatonName: 
+  # -- default name of application
+  - wintomato2-dev
+namespace: wintomato2-dev
+container: 
+  image: node:12
+replicaCount: 2
+ports:
+  containerPort: 3535
+
+resources:
+  limits:
+    memory: 2048Mi
+    cpu: 1
+  requests:
+    memory: 1024Mi
+    cpu: 500m
+#######################################
+#               Service               #
+#######################################
+serviceType: ClusterIP
+

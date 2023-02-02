@@ -1,0 +1,17 @@
+---
+{{ if .Values.ClusterIssuer }}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer                             
+metadata:                               
+  name: {{ .Release.Name }}
+spec:                            
+  acme:                                 
+    server: {{ .Values.ClusterIssuer.acme.server }}
+    email: {{ .Values.ClusterIssuer.acme.email }}
+    privateKeySecretRef:                                                                   
+      name: {{ .Values.ClusterIssuer.acme.privateKeySecretRef.name }}
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+{{ end }}

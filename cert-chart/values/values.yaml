@@ -1,0 +1,26 @@
+#### ClusterIssuer ####
+ClusterIssuer:
+  acme:                                 
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: shakokakhadze@gmail.com
+    privateKeySecretRef:
+      name: temporarry-issuer
+
+#### Certificates ####
+Certificates:
+  spec:
+    dnsNames:
+      - "win.gorgasali.com"
+      - "madona.ge"
+    issuerRef:
+      name: letsencrypt-cluster-issuer
+
+#### NameSpace ####
+nameSpace: dev-wintomato
+
+#### Ingress ####
+# Ingress:
+#   annotations:
+#     nginx.ingress.kubernetes.io/configuration-snippet: 
+#        - "more_set_headers "X-Forwarded-For $http_x_forwarded_for";
+#        - "more_set_headers "cloudfront-viewer-country $http_cloudfront_viewer_country";

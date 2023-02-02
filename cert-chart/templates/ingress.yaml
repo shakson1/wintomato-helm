@@ -1,0 +1,32 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.nameSpace }}
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: 
+      {{- range .Values.Ingress.annotations.nginx.ingress.kubernetes.io/configuration-snippet }} 
+         {{ . }} {{- end }}
+    cert-manager.io/cluster-issuer: "letsencrypt-cluster-issuer"
+    kubernetes.io/tls-acme: 'true'
+    nginx.org/proxy-connect-timeout: "30s"
+    nginx.org/proxy-read-timeout: "20s"
+    nginx.org/client-max-body-size: "4m"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - "prod.wintomato1.com"
+    secretName: letsencrypt-wintomato1-com-tls
+  rules:
+  - host: prod.wintomato1.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prod-wintomato-front
+            port:
+              number: 7777
